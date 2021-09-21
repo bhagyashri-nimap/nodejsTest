@@ -1,15 +1,13 @@
 const express = require('express');
 const passport = require("passport")
 require("../config/google")
-
 var { shortUrlSchemaData } = require('../mongooseModel/shortUrl');
 const app = express();
 app.use(express.json());
 var UserModel = require('../models/UserModel')
-//All crud
-
 app.use(passport.initialize())
 app.use(passport.session())
+//All crud
 app.get(
     "/auth/google",
     passport.authenticate("google", {
@@ -53,8 +51,8 @@ app.post("/login", async (req, res) => {
         res.status(500).send(error)
     }
 })
-  //
-app.post('/shortUrls', async (req, res) => {
+  //create short Urls
+app.post('/shortUrlCreate', async (req, res) => {
     let resData =await shortUrlSchemaData.create({ full: req.body.fullUrl })
     console.log("inside err", resData)
     res.status(200).json(resData)
