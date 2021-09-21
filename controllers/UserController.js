@@ -1,6 +1,7 @@
 const express = require('express');
 const passport = require("passport")
 require("../config/google")
+var {authenticateUser} = require("../config/middleware");
 var { shortUrlSchemaData } = require('../mongooseModel/shortUrl');
 const app = express();
 app.use(express.json());
@@ -52,9 +53,9 @@ app.post("/login", async (req, res) => {
     }
 })
   //create short Urls
-app.post('/shortUrlCreate', async (req, res) => {
+  //authenticateUser is the middeleware function
+  app.post('/shortUrlCreate',authenticateUser, async  (req, res) => {
     let resData =await shortUrlSchemaData.create({ full: req.body.fullUrl })
-    console.log("inside err", resData)
     res.status(200).json(resData)
   })
   
