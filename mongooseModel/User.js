@@ -16,11 +16,7 @@ var userSchema = Schema({
     },
     accessToken:{
         type: String
-    },
-    // googleEmailVerify:{
-    //     type:Boolean,
-    //     default:false
-    // }
+    }
 });
 var userData = mongoose.model('User', userSchema);
 module.exports = {

@@ -1,19 +1,11 @@
 const express = require('express');
 const passport = require("passport")
 require("../config/google")
-var { userData } = require('../mongooseModel/User.js');
+
+var { shortUrlSchemaData } = require('../mongooseModel/shortUrl');
 const app = express();
 app.use(express.json());
 var UserModel = require('../models/UserModel')
-
-//testing api
-// app.post('/test11', (req, res) => {
-//     // console.log("req",req)
-//     res.send({
-//         status: 200,
-//         message: 'app is working'
-//     })
-// })
 //All crud
 
 app.use(passport.initialize())
@@ -61,5 +53,19 @@ app.post("/login", async (req, res) => {
         res.status(500).send(error)
     }
 })
+  //
+app.post('/shortUrls', async (req, res) => {
+    let resData =await shortUrlSchemaData.create({ full: req.body.fullUrl })
+    console.log("inside err", resData)
+    res.status(200).json(resData)
+  })
+  
+  app.get('/:shortUrl', async (req, res) => {
+    const shortUrl = await shortUrlSchemaData.findOne({ short: req.params.shortUrl })
+    if (shortUrl == null) return res.status(404).json("Not Found")
+    shortUrl.clicks++
+    shortUrl.save()
+    res.redirect(shortUrl.full)
+  })
 
 module.exports = app;
