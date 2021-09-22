@@ -49,6 +49,16 @@ exports.signUp = async function (data) {
                 data: "Failed to Generate AccessToken",
                 value: false
             }
+        }else{
+            let newObj = {
+                accessToken: accessTokenOutput.data.accessToken,   
+            }
+            const userOutput = await userData.findByIdAndUpdate({
+                _id: saveUser._id
+            },
+            {$set: newObj}, {new: true}
+        )
+        saveUser = await userOutput.save()    
         }
         if (saveUser && !saveUser._id) {
             return {
@@ -84,7 +94,31 @@ exports.login = async function (data) {
                 value: false
             }
         }
-        return generateAccessToken(checkUser)
+        let accessTokenOutput = generateAccessToken(
+            checkUser
+        )
+        if (accessTokenOutput && !accessTokenOutput.value) {
+            return {
+                data: "Failed to Generate AccessToken",
+                value: false
+            }
+        }else{
+            let newObj = {
+                accessToken: accessTokenOutput.data.accessToken,   
+            }
+            const userOutput = await userData.updateOne({
+                _id: checkUser._id
+            },
+            newObj   
+        )
+        if (userOutput && userOutput.nModified) {
+            return {
+                data: "Update Successfully",
+                value: true
+            }
+        }  
+        }
+         return accessTokenOutput
 },
 
  generateAccessToken=function(userAvailable) {
@@ -95,9 +129,7 @@ exports.login = async function (data) {
         email: userAvailable.email,
         mobile: userAvailable.mobile
     }
-    console.log("objToGenerateAccessToken", objToGenerateAccessToken)
     var token = jwt.sign(objToGenerateAccessToken, jwtKey)
-    console.log("token", token)
     objToGenerateAccessToken.accessToken = token
     delete objToGenerateAccessToken._id
     return {

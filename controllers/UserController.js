@@ -27,6 +27,7 @@ app.get(
         res.redirect(req.user) 
     }
 )
+// Signup
 app.post("/signup", async (req, res) => {
     try {
         var data = await UserModel.signUp(req.body)
@@ -39,6 +40,7 @@ app.post("/signup", async (req, res) => {
         res.status(500).send(error)
     }
 }),
+//Login
 app.post("/login", async (req, res) => {
     try {
         let outputData = await UserModel.login(req.body)
