@@ -31,7 +31,7 @@ passport.use(
                     var token = jwt.sign(objToGenerateAccessToken, jwtKey)
                     objToGenerateAccessToken.accessToken = token
                     delete objToGenerateAccessToken._id
-                    redirect_url = `${process.env.frontend_redirect_url}/${objToGenerateAccessToken.accessToken}`
+                    redirect_url = `${process.env.frontend_redirect_url}`
                     return done(null, redirect_url)
                     // return done(null, "login done")
                 } else {
