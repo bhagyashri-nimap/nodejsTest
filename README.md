@@ -1,2 +1,2 @@
 # nodejsTest
-test
+use nodemon cmd //run the project
