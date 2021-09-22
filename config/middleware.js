@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken")
 require('dotenv').config();
 var jwtKey = process.env.JWT_KEY
  var authenticateUser= async (req, res, next) => {
-    // console.log(req)
     if (req && req.headers && req.headers.accesstoken) {
         try {
 

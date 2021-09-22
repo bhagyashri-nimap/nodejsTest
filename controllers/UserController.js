@@ -54,6 +54,7 @@ app.post("/login", async (req, res) => {
 })
   //create short Urls
   //authenticateUser is the middeleware function
+  //used accesstoken after login
   app.post('/shortUrlCreate',authenticateUser, async  (req, res) => {
     let resData =await shortUrlSchemaData.create({ full: req.body.fullUrl })
     res.status(200).json(resData)
