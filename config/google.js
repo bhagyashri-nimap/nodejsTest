@@ -37,11 +37,9 @@ passport.use(
                     redirect_url = `${process.env.frontend_redirect_url}`
                     return done(null, redirect_url)
                     // return done(null, "login done")
-                } else {
-                    return {
-                        Error: "Failed to login",
-                        value: false
-                    }
+                } else if(userIfAvailable == null) {
+                    return done  (null, "Failed to login")
+                    
                 }
             } catch (error) {
                 done(error)
