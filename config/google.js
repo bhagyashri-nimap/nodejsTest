@@ -31,6 +31,9 @@ passport.use(
                     var token = jwt.sign(objToGenerateAccessToken, jwtKey)
                     objToGenerateAccessToken.accessToken = token
                     delete objToGenerateAccessToken._id
+
+                    //if using accesstoken to redirect the frontend pge but here i used only example redirect_url
+                    // redirect_url = `${global.frontend_redirect_url}/${generateAccessToken.accessToken}`
                     redirect_url = `${process.env.frontend_redirect_url}`
                     return done(null, redirect_url)
                     // return done(null, "login done")
