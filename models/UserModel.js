@@ -121,13 +121,6 @@ exports.login = async function (data) {
          return accessTokenOutput
 },
 
-exports.loginGoogle = async function (data) {
-   return{
-        value: true,
-        data: 'app is working'
-    }
-},
-
  generateAccessToken=function(userAvailable) {
     console.log("userAvailable", userAvailable)
     let objToGenerateAccessToken = {

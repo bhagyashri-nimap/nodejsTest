@@ -54,31 +54,6 @@ app.post("/login", async (req, res) => {
         res.status(500).send(error)
     }
 })
-
-app.get('/loginDone', async (req, res) => {
-    // try {
-    //     let outputData = await UserModel.loginGoogle(req.params.accessToken)
-    //     if (outputData && outputData.value) {
-    //         res.status(200).json(outputData.data)
-    //     } else {
-    //         res.status(500).json(outputData)
-    //     }
-    // } catch (error) {
-    //     console.log("inside err", error)
-    //     res.status(500).send(error)
-    // }
-    res.send({
-        status: 200,
-        message: 'app is working'
-    })
-    // const userData = await userData.findOne({ _id: req.params.accessToken })
-    // if (shortUrl == null) return res.status(404).json("Not Found")
-    // shortUrl.clicks++
-    // shortUrl.save()
-    // res.redirect(shortUrl.full)
-  })
-
-
   //create short Urls
   //authenticateUser is the middeleware function
   //used accesstoken after login
