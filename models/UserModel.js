@@ -6,6 +6,86 @@ var jwt = require("jsonwebtoken")
 var jwtDecode = require("jwt-decode")
 var sha256 = require("js-sha256").sha256
 var jwtKey = process.env.JWT_KEY
+exports.save = async function (data) {
+    console.log(data)
+    let saveUser
+       let newUserObj = {
+           name: data.name,
+           email: _.toLower(data.email),
+           mobile: data.mobile,
+           password: sha256(data.password)
+       }
+
+       let userObj = new userData(newUserObj)
+       saveUser = await userObj.save()
+       console.log(saveUser)
+       if (saveUser && !saveUser._id) {
+           return {
+               data: "Something Went Wrong While Saving User",
+               value: false
+           }
+       }
+       return {
+           data: "saved",
+           value: true
+       }
+},
+exports.getAll = async function (data) {
+   
+    const checkUser = await userData.find({
+    })
+    if (_.isEmpty(checkUser)) {
+        return {
+            data: "error",
+            value: false
+        }
+    }
+       return {
+           data: checkUser,
+           value: true
+       }
+},
+exports.update = async function (data, bodydata) {
+    const userOutput = await userData.findOneAndUpdate(
+        {
+            _id: data.id
+        },
+        {
+            $set: bodydata
+        },
+        {
+            new: true
+        } 
+)
+if (userOutput) {
+    return {
+        data: "Update Successfully",
+        value: true
+    }
+}else{
+    return {
+        data: "Update un Successfully",
+        value: false
+    }
+}  
+},
+exports.delete=async function(data){
+    const deleteUser = await userData.deleteOne({
+        _id: data.id
+    })
+    console.log(deleteUser)
+    if (deleteUser) {
+        return {
+            data: "delete Successfully",
+            value: true
+        }
+    }else{
+        return {
+            data: "Update un Successfully",
+            value: false
+        }
+    }  
+},
 exports.signUp = async function (data) {
      let saveUser
         const ifAlreadyUser = await userData.findOne({
@@ -71,6 +151,7 @@ exports.signUp = async function (data) {
             value: true
         }
 },
+
 exports.login = async function (data) {
     data.email = _.toLower(data.email)
         const checkUser = await userData.findOne({

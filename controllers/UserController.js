@@ -27,6 +27,54 @@ app.get(
         res.redirect(req.user) 
     }
 )
+app.post("/save", async (req, res) => {
+    try {
+        var data = await UserModel.save(req.body)
+        if (data.value) {
+            res.status(200).json(data.data)
+        } else {
+            res.status(500).json(data)
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}),
+app.get("/getAll", async (req, res) => {
+    try {
+        var data = await UserModel.getAll(req.body)
+        if (data.value) {
+            res.status(200).json(data.data)
+        } else {
+            res.status(500).json(data)
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}),
+app.put("/update/:id", async (req, res) => {
+    try {
+        var data = await UserModel.update(req.params, req.body)
+        if (data.value) {
+            res.status(200).json(data.data)
+        } else {
+            res.status(500).json(data)
+        }
+    } catch (error) {
+        res.status(500).send(error)
+    }
+}),
+app.delete("/delete/:id",async(req,res)=>{
+    try {
+        var data=await UserModel.delete(req.params)
+        if(data.value){
+            res.status(200).json(data.data)
+        } else {
+            res.status(500).json(data)
+        }
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
 // Signup
 app.post("/signup", async (req, res) => {
     try {

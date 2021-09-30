@@ -14,9 +14,9 @@ var userSchema = Schema({
     password: {
         type: String
     },
-    accessToken:{
-        type: String
-    }
+    // accessToken:{
+    //     type: String
+    // }
 });
 var userData = mongoose.model('User', userSchema);
 module.exports = {
